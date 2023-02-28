@@ -1,0 +1,14 @@
+---
+- name: Install Java
+  hosts: all
+  become: yes
+
+  tasks:
+    - name: Update yum cache
+      yum:
+        update_cache: yes
+
+    - name: Install Java* # you can mention any version that you want
+      yum:
+        name: java
+        state: present

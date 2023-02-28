@@ -1,0 +1,33 @@
+---
+- name: Download, install and configure Tomcat 8
+  hosts: all
+  become: yes
+
+  vars:
+    tomcat_version: 8.5.75
+    tomcat_home: /opt/tomcat
+    #tomcat_user: tomcat
+    #tomcat_group: tomcat
+
+  tasks:
+    - name: Create Tomcat directory # it will create a directory on local system name of tomcat
+      file:
+        path: /opt/tomcat
+        state: directory
+        #owner: "{{ tomcat_user }}"
+        #group: "{{ tomcat_group }}"
+        mode: "0755" # this will give permission to tomcat
+
+    - name: Download Tomcat
+      get_url:
+        url: "https://dlcdn.apache.org/tomcat/tomcat-8/v8.5.85/bin/apache-tomcat-8.5.85.tar.gz"
+        dest: "/opt/tomcat/tomcat.tar.gz"
+
+    - name: Extract Tomcat #this will help to extract tar to untar our tomcat server
+      unarchive:
+        src: "/opt/tomcat/tomcat.tar.gz"
+        dest: "/opt/tomcat/"
+        remote_src: yes
+        #owner: "{{ tomcat_user }}"
+        #group: "{{ tomcat_group }}"
+        mode: "0755"

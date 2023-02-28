@@ -1,0 +1,16 @@
+---
+- hosts: all
+  become: true
+  tasks:
+    - name: Copy Dockerfile to remote host # write a docker file from your ansible server otherwise it will be fail to copy
+      copy:
+        src: /opt/docker/Dockerfile
+        dest: /opt/docker/Dockerfile
+
+    - name: Copy warfile to remote host # This will work only if the war file is on ansible server
+      copy:
+        src: /opt/docker/webapp.war
+        dest: /opt/docker/webapp.war
+
+    - name: Build Docker image using war file
+      command: docker build -t simple-devops-image /opt/docker
